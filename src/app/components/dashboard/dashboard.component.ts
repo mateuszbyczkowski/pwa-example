@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
         this.dbService.getAll().subscribe(value => this.rates = value);
       }
     );
-  };
+  }
 
   getBase64ImageFromURL(url: string) {
     return Observable.create((observer: Observer<string>) => {
@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
         };
         img.onerror = (err) => {
           observer.error(err);
+          console.log(err);
         };
       } else {
         observer.next(this.getBase64Image(img));
