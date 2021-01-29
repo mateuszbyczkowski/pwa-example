@@ -9,12 +9,37 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {SignInComponent} from './components/sign-in/sign-in.component';
+import {SignUpComponent} from './components/sign-up/sign-up.component';
+import {ForgotPasswordComponent} from './components/forgot-password/forgot-password.component';
+import {VerifyEmailComponent} from './components/verify-email/verify-email.component';
 import {AuthService} from './shared/services/auth.service';
+import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
+import {HttpClientModule} from '@angular/common/http';
+import {SplashScreenComponent} from './components/splash-screen/splash-screen.component';
+import {CurrencyDisplayPipe} from './shared/services/currency.pipe';
+
+const dBConfig: DBConfig = {
+  name: 'db',
+  version: 1,
+  objectStoresMeta: [{
+    store: 'currency',
+    storeConfig: {keyPath: 'code', autoIncrement: false},
+    storeSchema: [
+      {name: 'currency', keypath: 'currency', options: {unique: false}},
+      {name: 'mid', keypath: 'mid', options: {unique: false}}
+    ]
+  },
+    {
+      store: 'image',
+      storeConfig: {keyPath: 'url', autoIncrement: false},
+      storeSchema: [
+        {name: 'base64', keypath: 'base64', options: {unique: false}},
+      ]
+    }
+  ]
+};
 
 @NgModule({
   declarations: [
@@ -23,7 +48,9 @@ import {AuthService} from './shared/services/auth.service';
     SignInComponent,
     SignUpComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    SplashScreenComponent,
+    CurrencyDisplayPipe
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -32,9 +59,11 @@ import {AuthService} from './shared/services/auth.service';
     BrowserModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxIndexedDBModule.forRoot(dBConfig),
+    HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, CurrencyDisplayPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

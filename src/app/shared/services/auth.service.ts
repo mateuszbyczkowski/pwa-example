@@ -1,5 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {User} from './user';
+import {User} from '../model/user';
 import firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
@@ -19,7 +19,6 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
-
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;

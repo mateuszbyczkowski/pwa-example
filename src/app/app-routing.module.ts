@@ -6,9 +6,10 @@ import {ForgotPasswordComponent} from './components/forgot-password/forgot-passw
 import {VerifyEmailComponent} from './components/verify-email/verify-email.component';
 import {SignUpComponent} from './components/sign-up/sign-up.component';
 import {AuthGuard} from './shared/guard/auth.guard';
+import {SplashScreenComponent} from './components/splash-screen/splash-screen.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/sign-in', pathMatch: 'full'},
+  {path: '', component: SplashScreenComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'register-user', component: SignUpComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
